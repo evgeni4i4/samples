@@ -40,9 +40,16 @@ async def get_merchant_profile(request: Request):
   with PROFILE_TEMPLATE_PATH.open(encoding="utf-8") as f:
     template = f.read()
 
+  # Determine the correct endpoint URL, respecting proxy headers
+  base_url = str(request.base_url).rstrip("/")
+  # Check X-Forwarded-Proto header (set by Railway and other proxies)
+  forwarded_proto = request.headers.get("x-forwarded-proto")
+  if forwarded_proto == "https" and base_url.startswith("http://"):
+    base_url = "https://" + base_url[7:]
+
   # Replace placeholders
   profile_json = template.replace(
-    "{{ENDPOINT}}", str(request.base_url).rstrip("/")
+    "{{ENDPOINT}}", base_url
   ).replace("{{SHOP_ID}}", SHOP_ID)
 
   return UcpDiscoveryProfile(**json.loads(profile_json))
