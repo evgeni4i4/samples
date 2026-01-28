@@ -51,7 +51,7 @@
     "handlers": [
       {
         "id": "shop_pay",
-        "name": "dev.shopify.shop_pay",
+        "name": "com.shopify.shop_pay",
         "version": "2026-01-11",
         "spec": "https://shopify.dev/docs/agents/checkout/shop-pay-handler",
         "config_schema": "https://shopify.dev/ucp/shop-pay-handler/2026-01-11/config.json",
@@ -106,6 +106,17 @@
             }
           ]
         }
+      },
+      {
+        "id": "mock_payment_handler",
+        "name": "mock_payment_handler",
+        "version": "2026-01-11",
+        "spec": "https://ucp.dev/specification/mock-payment-handler",
+        "config_schema": "https://ucp.dev/schemas/mock-payment-handler/config.json",
+        "instrument_schemas": [
+          "https://ucp.dev/schemas/mock-payment-handler/instrument.json"
+        ],
+        "config": {}
       }
     ]
   }
