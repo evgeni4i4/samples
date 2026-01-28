@@ -26,6 +26,7 @@ from fastapi.responses import JSONResponse
 import generated_routes.ucp_routes
 from routes.discovery import router as discovery_router
 from routes.order import router as order_router
+from routes.acp import router as acp_router
 import routes.ucp_implementation
 import uvicorn
 
@@ -35,9 +36,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 app = FastAPI(
-  title="UCP Shopping Service",
+  title="UCP + ACP Commerce Service",
   version=config.get_server_version(),
-  description="Reference implementation of the UCP Shopping Service",
+  description="Dual-protocol implementation supporting UCP (Universal Commerce Protocol) and ACP (Agentic Commerce Protocol)",
   lifespan=config.lifespan,
 )
 
@@ -59,6 +60,7 @@ routes.ucp_implementation.apply_implementation(
 app.include_router(generated_routes.ucp_routes.router)
 app.include_router(order_router)
 app.include_router(discovery_router)
+app.include_router(acp_router)  # ACP Protocol endpoints
 
 
 def main(argv: Sequence[str]) -> None:
