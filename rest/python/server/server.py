@@ -23,6 +23,7 @@ from exceptions import UcpError
 from fastapi import FastAPI
 from fastapi import Request
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 import generated_routes.ucp_routes
 from routes.discovery import router as discovery_router
 from routes.order import router as order_router
@@ -40,6 +41,15 @@ app = FastAPI(
   version=config.get_server_version(),
   description="Dual-protocol implementation supporting UCP (Universal Commerce Protocol) and ACP (Agentic Commerce Protocol)",
   lifespan=config.lifespan,
+)
+
+# Enable CORS for demo page and other clients
+app.add_middleware(
+  CORSMiddleware,
+  allow_origins=["*"],  # Allow all origins for demo purposes
+  allow_credentials=True,
+  allow_methods=["*"],
+  allow_headers=["*"],
 )
 
 
